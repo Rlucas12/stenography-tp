@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+
+body { background: linear-gradient(to right, #16222A, #3A6073); font-family: 'Roboto' }
+
+#main-section { 
+    position: absolute;
+    top: 20%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    width: 60vw;
+    margin: auto;
+}
+#encrypt-selection-parent { height: auto; width: 100%; display: flex; align-items: center; justify-content: center; margin-top: 40px; }
+.encrypt-selection-children { 
+    background: rgba( 255, 255, 255, 0.1); 
+    border-radius: 12px; 
+    height: 400px;
+    width: 400px;
+    margin: 8px;
+    display: inline-block;
+}
+
+#presentation-title { color: #FFF; width: 80%; margin: auto; }
+#presentation-title h2 { font-weight: 200; font-size: 3em; }
+#presentation-title h2 .bold { font-weight: 400; }
+#presentation-title h3 { opacity: 0.4; font-weight: 100; }
