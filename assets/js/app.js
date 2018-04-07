@@ -81,18 +81,39 @@ class Stego {
       var charToAdd = binHidden.charAt(i);
       binArrayImage[i][binArrayImage[i].length-1] = binArrayImage[i][binArrayImage[i].length-1].slice(0, -1) + charToAdd;
     }
-    console.log(binArrayImage)
     return binArrayImage;
   }
 
   decode_image(binArray) {
-    var toDecode = "";
-    binArray.forEach(function(bin) {
-      toDecode += bin[bin.length-1].slice(-1);
-    }, this);
+    this.redo_image_from_pixelArray(this.binArray_to_RGBArray(binArray));
+  }
 
-    var output = this.binary_to_text(toDecode);
-    console.log(output);
+  binArray_to_RGBArray(binArray) {
+    var pixelArray = [[]];
+    for (let i = 0; i < binArray.length; i++) {
+      var pixel = []
+      for (let j = 0; j < binArray[i].length; j++) {
+        pixel.push(parseInt(binArray[i][j],2).toString(10));
+      }
+      pixelArray.push(pixel);
+    }
+    return pixelArray;
+  }
+
+  redo_image_from_pixelArray(pixelArray) {
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var imgData = ctx.createImageData(48, 48);
+
+    var concatArray = pixelArray.reduce((acc, val) => acc.concat(val), []);
+    for (let i = 0; i < imgData.data.length; i += 4) {
+        imgData.data[i+0] = concatArray[i+0];
+        imgData.data[i+1] = concatArray[i+1];
+        imgData.data[i+2] = concatArray[i+2];
+        imgData.data[i+3] = 255;
+    }
+
+    ctx.putImageData(imgData, 10, 10);
   }
 
 }
