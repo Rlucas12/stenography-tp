@@ -37,11 +37,11 @@ class Stego {
       
       var canvas = document.createElement('canvas');
       var context = canvas.getContext('2d');
-      // context.drawImage(image, 0, 0)
+      context.drawImage(image, 0, 0)
           
-      for (var w = 1; w < image.width; w++) {
-        for (var h = 1; h < image.height; h++) {
-          var canvasColor = context.getImageData(0, 0, w, h).data; // rgba e [0,255]
+      for (var x = 1; x < image.width; x++) {
+        for (var y = 1; y < image.height; y++) {
+          var canvasColor = context.getImageData(x, y, 1, 1).data; // rgba e [0,255]
           var r = canvasColor[0];
           var g = canvasColor[1];
           var b = canvasColor[2];  
@@ -79,15 +79,16 @@ class Stego {
     var length = binHidden.length;
     for (var i = 0; i < length; i++) {
       var charToAdd = binHidden.charAt(i);
-      binArrayImage[i][binArrayImage[i].length-1] = charToAdd;
+      binArrayImage[i][binArrayImage[i].length-1] = binArrayImage[i][binArrayImage[i].length-1].slice(0, -1) + charToAdd;
     }
+    console.log(binArrayImage)
     return binArrayImage;
   }
 
   decode_image(binArray) {
     var toDecode = "";
     binArray.forEach(function(bin) {
-      toDecode += bin[bin.length-1];
+      toDecode += bin[bin.length-1].slice(-1);
     }, this);
 
     var output = this.binary_to_text(toDecode);
@@ -97,7 +98,8 @@ class Stego {
 }
 
 var image = new Image();
-image.src = "./assets/img/glgb.jpg";
+image.crossOrigin = "Anonymous";
+image.src = "https://yt3.ggpht.com/-sMZCSoz7e-0/AAAAAAAAAAI/AAAAAAAAAAA/4xEvyFgYV68/s48-c-k-no-mo-rj-c0xffffff/photo.jpg";
 image.onload = function() {
   const stego = new Stego(image);
 }
