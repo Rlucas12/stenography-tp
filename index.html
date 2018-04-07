@@ -4,29 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
     <title>Stenography - COUSIN / SAINT-ETIENNE / REYNES</title>
 </head>
 <body>
     
-    <section id="main-section">
-
+    <div id="main-section">
         <div id="presentation-title">
             <h2>Everyone has a dirty little <span class="bold">secret</span>.</h2>
             <h3>What do you want do hide today ?</h3>
         </div>
-
+        
         <div id="encrypt-selection-parent">
             <div class="encrypt-selection-children">
-    
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <button type="button" class="btn btn-primary" style="background-color: transparent; border: 0px; padding: 0px; height: 100%; width: 100%; cursor: pointer;" data-toggle="modal" data-target="#textModal">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: 100;">
+                            <i class="material-icons" style="font-size: 96px;">phonelink_lock</i>
+                            <span style="margin: 20px;">Encrypt some text</span>
+                        </div>
+                    </button>
+                </div>
             </div>
             <div class="encrypt-selection-children">
-    
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <button type="button" class="btn btn-primary" style="background-color: transparent; border: 0px; padding: 0px; height: 100%; width: 100%; cursor: pointer;" data-toggle="modal" data-target="#imageModal">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: 100;">
+                            <i class="material-icons" style="font-size: 96px;">crop_original</i>
+                            <span style="margin: 20px;">Encrypt an image</span>
+                        </div>
+                    </button>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade" id="textModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Encrypt a text</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleTextarea" class="bmd-label-floating">Enter a text</label>
+                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Encrypt an image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputFile" class="bmd-label-floating">File input</label>
+                    <input type="file" accept="image/*" class="form-control-file" id="exampleInputFile">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+    </div>
     </section>
-    <canvas id="myCanvas"></canvas>
+    <canvas id="myCanvas" height="48px" width="48px;"></canvas>
     <script type="text/javascript" src="./assets/js/app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+
 </body>
 </html>
