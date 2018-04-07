@@ -6,7 +6,7 @@ class Stego {
 
   text_in_image(text) {
     var array = this.encode_image(this.text_to_binary(text), image);
-    this.decode_image(array);
+    this.redo_image_from_pixelArray(this.binArray_to_RGBArray(array));
   }
 
   text_to_binary(text) {
@@ -27,43 +27,27 @@ class Stego {
     
     text.match(/.{8}/g).map(function(bin) {
       output += String.fromCharCode(parseInt(bin, 2));
-      });
+    });
     return output;
   }
 
   image_to_binary(image) {
+    var binArray = [];
+    
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+    context.drawImage(image, 0, 0)
 
-      var binArray = [];
-      
-      var canvas = document.createElement('canvas');
-      var context = canvas.getContext('2d');
-      context.drawImage(image, 0, 0)
-          
-      for (var x = 1; x < image.width; x++) {
-        for (var y = 1; y < image.height; y++) {
-          var canvasColor = context.getImageData(x, y, 1, 1).data; // rgba e [0,255]
-          var r = canvasColor[0];
-          var g = canvasColor[1];
-          var b = canvasColor[2];  
-  
-          binArray.push(this.pixel_binary_value(r,g,b));
-        }
-      }
-
-      return binArray;
+    var data = context.getImageData(0,0,image.width,image.height).data
+        
+    for (let i = 0; i < data.length; i++) {
+      var bin = data[i];
+      binArray.push(bin.toString(2))
+    }
+    return binArray;
   }
 
   binary_to_image(text) {}
-
-  pixel_binary_value(r,g,b) {
-    var output = [];
-    
-    output.push(r.toString(2));
-    output.push(g.toString(2));
-    output.push(b.toString(2));
-
-    return output;
-  }
 
   pixel_value_from_binary(binArray) {
     var array = [];
@@ -75,24 +59,38 @@ class Stego {
 
   encode_image(text, image) {
     var binArrayImage = this.image_to_binary(image);
-    var binHidden = text;
-    var length = binHidden.length;
-    for (var i = 0; i < length; i++) {
-      var charToAdd = binHidden.charAt(i);
-      binArrayImage[i][binArrayImage[i].length-1] = binArrayImage[i][binArrayImage[i].length-1].slice(0, -1) + charToAdd;
+    for (let i = 0; i < text.length; i++) {
+      var charToAdd = text.charAt(i);
+      binArrayImage[i] = binArrayImage[i].slice(0, -1) + charToAdd;
     }
-    console.log(binArrayImage)
     return binArrayImage;
   }
 
-  decode_image(binArray) {
-    var toDecode = "";
-    binArray.forEach(function(bin) {
-      toDecode += bin[bin.length-1].slice(-1);
-    }, this);
+  decode_image(image) {
+    
+  }
 
-    var output = this.binary_to_text(toDecode);
-    console.log(output);
+  binArray_to_RGBArray(binArray) {
+    var pixelArray = [[]];
+    for (let i = 0; i < binArray.length; i++) {
+      pixelArray.push(parseInt(binArray[i],2).toString(10))
+    }
+    return pixelArray;
+  }
+
+  redo_image_from_pixelArray(pixelArray) {
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var imgData = ctx.createImageData(48, 48);
+
+    var concatArray = pixelArray.reduce((acc, val) => acc.concat(val), []);
+    for (let i = 0; i < imgData.data.length; i += 4) {
+        imgData.data[i+0] = concatArray[i+0];
+        imgData.data[i+1] = concatArray[i+1];
+        imgData.data[i+2] = concatArray[i+2];
+        imgData.data[i+3] = 255;
+    }
+    ctx.putImageData(imgData, 10, 10);
   }
 
 }
