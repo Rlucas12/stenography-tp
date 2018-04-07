@@ -1,22 +1,7 @@
 class Stego {
 
   constructor(image) {
-    this.text_in_image(`[Intro : Kwest OG]
-    Volume 2, Kwest OG
-    
-    [Couplet unique : Kwest OG & Cadreur]
-    Grigny-la-Grande-Borne, une bite sur l'épaule
-    3 cadavres, sol, quartier mahbol
-    Face à l'horreur, nous sommes
-    Nous sommes, des tueurs
-    Général de guerre et casquette à l'envers
-    Les pecs en l'air, le bras à Schwarzennegger
-    Tu gazes on t'monte en l'air pour des billets, (ttt)-verts
-    Je suis un braqueur, fuck le procureur !
-    Fuck le procureur ! Fuck ? Le procureur
-    
-    [Outro : Kwest OG]
-    Bien joué messieurs dames`);
+    this.text_in_image("Hello World!");
   }
 
   text_in_image(text) {
