@@ -67,7 +67,7 @@ class Stego {
     return binArrayImage;
   }
 
-  decode_image() {
+  decode_image(binArray) {
     var c = document.getElementById("myCanvas");
     var image = this.convertCanvasToImage(c);
     image.onload = function() {
@@ -106,9 +106,9 @@ class Stego {
   }
 
   download_image() {
-    var canvas = document.getElementById("myCanvas");
-    var dt = canvas.toDataURL('image/png');
-    window.location.href = dt.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+		var download = document.getElementById("download");
+		var image = document.getElementById("myCanvas").toDataURL("image/png").replace("image/png", "image/octet-stream");
+    download.setAttribute("href", image);
   }
 
   convertCanvasToImage(canvas) {

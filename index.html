@@ -65,9 +65,9 @@
                     <img src="https://yt3.ggpht.com/-sMZCSoz7e-0/AAAAAAAAAAI/AAAAAAAAAAA/4xEvyFgYV68/s48-c-k-no-mo-rj-c0xffffff/photo.jpg"/>
                 </div>
                 <div>
-                        <span>Preview</span>
-                        <canvas id="myCanvas" height="48px" width="48px;"></canvas>
-                    </div>
+                    <span>Image encryptée</span>
+                    <canvas id="myCanvas" height="48px" width="48px;"></canvas>
+                </div>
                 <form>
                     <div class="form-group">
                         <label for="exampleTextarea" class="bmd-label-floating">Enter a text</label>
@@ -76,8 +76,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="init()">Save changes</button>
+                <button type="button" class="btn btn-secondary" onclick="init()">Encrypt</button>
+                <a id="download" download="triangle.png"><button type="button" class="btn btn-primary">Download</button></a>
             </div>
             </div>
         </div>
@@ -96,9 +96,13 @@
                     <span>Default image</span>
                     <img src="https://yt3.ggpht.com/-sMZCSoz7e-0/AAAAAAAAAAI/AAAAAAAAAAA/4xEvyFgYV68/s48-c-k-no-mo-rj-c0xffffff/photo.jpg"/>
                 </div>
+                <div>
+                    <span>Image encryptée</span>
+                    <img id="imgpreview2">
+                </div>
                 <div class="form-group">
                     <label for="exampleInputFile" class="bmd-label-floating">File input</label>
-                    <input type="file" accept="image/*" class="form-control-file" id="exampleInputFile">
+                    <input type="file" id="imagetoencrypt2" accept="image/*" class="form-control-file">
                 </div>
             </div>
             <div class="modal-footer">
@@ -120,12 +124,16 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="exampleInputFile" class="bmd-label-floating">File input</label>
-                    <input type="file" accept="" class="form-control-file" id="decodefile">
+                    <input type="file" id="imagetoencrypt" accept="image/*" class="form-control-file">
+                </div>
+                <div>
+                    <span>Image encryptée</span>
+                    <img id="imgpreview">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="init_decode()">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="init_decode()">Decrypt</button>
             </div>
         </div>
     </div>
@@ -150,9 +158,21 @@
         function init_decode() {
             var reader  = new FileReader();
             var preview = document.getElementById('imgpreview');
-            var file = document.getElementById('decodefile').files[0];
+            var file = document.getElementById('imagetoencrypt').files[0];
             reader.addEventListener("load", function () {
                 preview.src = reader.result;
+                var img = new Image()
+                img.src = reader.result
+                img.height = 48
+                img.width = 48
+                var binArray = Stego.image_to_binary(img)
+                var input = "";
+                var output = "";
+                for (let i = 0; i < binArray.length; i++) {
+                    input += binArray[i].substr(binArray[i].length - 1);
+                }
+                output = Stego.binary_to_text(input);
+                alert("Data décrypté après le cryptage : \n" + output);
             }, false);
 
             if (file) {
