@@ -1,10 +1,10 @@
 class Stego {
 
-  constructor(image) {
-    this.text_in_image("Hello World!");
+  constructor(image, text) {
+    this.text_in_image(image, text);
   }
 
-  text_in_image(text) {
+  text_in_image(image, text) {
     var array = this.encode_image(this.text_to_binary(text), image);
     this.redo_image_from_pixelArray(this.binArray_to_RGBArray(array));
     this.decode_image()
@@ -78,7 +78,7 @@ class Stego {
         input += binArray[i].substr(binArray[i].length - 1);
       }
       output = Stego.binary_to_text(input);
-      console.log(output);
+      alert("Data décrypté après le cryptage : \n" + output);
     }
   }
 
@@ -107,7 +107,8 @@ class Stego {
 
   download_image() {
     var canvas = document.getElementById("myCanvas");
-    document.location.href = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    var dt = canvas.toDataURL('image/png');
+    window.location.href = dt.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
   }
 
   convertCanvasToImage(canvas) {
@@ -116,11 +117,4 @@ class Stego {
     return image;
   }
 
-}
-
-var image = new Image();
-image.crossOrigin = "Anonymous";
-image.src = "https://yt3.ggpht.com/-sMZCSoz7e-0/AAAAAAAAAAI/AAAAAAAAAAA/4xEvyFgYV68/s48-c-k-no-mo-rj-c0xffffff/photo.jpg";
-image.onload = function() {
-  const stego = new Stego(image);
 }

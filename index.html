@@ -38,6 +38,16 @@
                     </button>
                 </div>
             </div>
+            <div class="encrypt-selection-children">
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <button type="button" class="btn btn-primary" style="background-color: transparent; border: 0px; padding: 0px; height: 100%; width: 100%; cursor: pointer;" data-toggle="modal" data-target="#decryptimageModal">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: 100;">
+                            <i class="material-icons" style="font-size: 96px;">lock_open</i>
+                            <span style="margin: 20px;">Decrypt an image</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal fade" id="textModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -50,6 +60,14 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div>
+                    <span>Default image</span>
+                    <img src="https://yt3.ggpht.com/-sMZCSoz7e-0/AAAAAAAAAAI/AAAAAAAAAAA/4xEvyFgYV68/s48-c-k-no-mo-rj-c0xffffff/photo.jpg"/>
+                </div>
+                <div>
+                        <span>Preview</span>
+                        <canvas id="myCanvas" height="48px" width="48px;"></canvas>
+                    </div>
                 <form>
                     <div class="form-group">
                         <label for="exampleTextarea" class="bmd-label-floating">Enter a text</label>
@@ -59,7 +77,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="init()">Save changes</button>
             </div>
             </div>
         </div>
@@ -74,6 +92,10 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div>
+                    <span>Default image</span>
+                    <img src="https://yt3.ggpht.com/-sMZCSoz7e-0/AAAAAAAAAAI/AAAAAAAAAAA/4xEvyFgYV68/s48-c-k-no-mo-rj-c0xffffff/photo.jpg"/>
+                </div>
                 <div class="form-group">
                     <label for="exampleInputFile" class="bmd-label-floating">File input</label>
                     <input type="file" accept="image/*" class="form-control-file" id="exampleInputFile">
@@ -83,16 +105,61 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
             </div>
+        </div>
+    </div>
+</div>
+    <div class="modal fade" id="decryptimageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Decrypt an image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputFile" class="bmd-label-floating">File input</label>
+                    <input type="file" accept="" class="form-control-file" id="decodefile">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="init_decode()">Save changes</button>
             </div>
         </div>
     </div>
-    </section>
-    <canvas id="myCanvas" height="48px" width="48px;"></canvas>
+</div>
+</section>
     <script type="text/javascript" src="./assets/js/app.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
     <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+    <script>
+        function init() {
+            var image = new Image();
+            image.crossOrigin = "Anonymous";
+            // Nous sommes obligés d'utiliser des images déjà hébergées en ligne sinon on se fait bloquer par le navigateur à cause des CORS
+            image.src = "https://yt3.ggpht.com/-sMZCSoz7e-0/AAAAAAAAAAI/AAAAAAAAAAA/4xEvyFgYV68/s48-c-k-no-mo-rj-c0xffffff/photo.jpg";
+            image.onload = function() {
+                const stego = new Stego(image, document.getElementById("exampleTextarea").value);
+                stego.download_image()
+            }
+        }
+        function init_decode() {
+            var reader  = new FileReader();
+            var preview = document.getElementById('imgpreview');
+            var file = document.getElementById('decodefile').files[0];
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
 
 </body>
 </html>

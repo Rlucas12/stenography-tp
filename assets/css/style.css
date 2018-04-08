@@ -3,7 +3,6 @@
 body { background: linear-gradient(to right, #16222A, #3A6073); font-family: 'Roboto' }
 
 #main-section { 
-    position: absolute;
     top: 20%;
     bottom: 0;
     left: 0;
